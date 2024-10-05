@@ -25,10 +25,9 @@ begin
     Cout <= A(7) when S = "1000" else
             A(7) when S = "1001" else
             A(7) when S = "1010" else
-            '0'  when S = "1011";
+            '0'  when S = "1011" else
+            '0';
             
-            -- The line below causes an error:
-            -- Aggregate expression cannot be scalar type ieee.std_logic_1164.STD_LOGIC.
-            -- (others => '0'); 
+            -- I know that the above statement seems strange, but just for the sake of consistency 
 
 end ArchC ; -- ArchC
