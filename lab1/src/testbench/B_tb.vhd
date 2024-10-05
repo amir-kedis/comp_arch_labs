@@ -42,23 +42,44 @@ begin
         A_sig <= "11110000";
         B_sig <= "10110000";
         wait for 1 ns; -- and check the output F=40 and Cout=0
+        if (F_sig = "01000000") and (Cout_sig = '0') then
+            report "Test case 1 passed" severity note;
+        else
+            report "Test case 1 failed" severity error;
+        end if;
+                
 
         -- NAND
         S_sig <= "0101";
         A_sig <= "11110000";
         B_sig <= "00001011";
         wait for 1 ns; -- and check the output F=FF and Cout=0
+        if (F_sig = "11111111") and (Cout_sig = '0') then
+            report "Test case 2 passed" severity note;
+        else
+            report "Test case 2 failed" severity error;
+        end if;
 
         -- OR
         S_sig <= "0110";
         A_sig <= "11110000";
         B_sig <= "10110000";
         wait for 1 ns; -- and check the output F=F0 and Cout=0
+        if (F_sig = "11110000") and (Cout_sig = '0') then
+            report "Test case 3 passed" severity note;
+        else
+            report "Test case 3 failed" severity error;
+        end if;
 
         -- NOT
         S_sig <= "0111";
         A_sig <= "11110000";
         wait for 1 ns; -- and check the output F=0F and Cout=0
+        if (F_sig = "00001111") and (Cout_sig = '0') then
+            report "Test case 4 passed" severity note;
+        else
+            report "Test case 4 failed" severity error;
+        end if;
         
         wait; -- do not close the simulation
 

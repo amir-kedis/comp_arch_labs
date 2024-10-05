@@ -41,46 +41,96 @@ bofteka: ALU port map(A_IN_sig, B_IN_sig, Cin_sig, S_sig, F_sig, Cout_sig);
         -- test case 1: logic shift left
         S_sig <= "1000";
         wait for 1 ns; -- and check output F=E0 and Cout=1
+        if (F_sig = "11100000") and (Cout_sig = '1') then
+            report "Test case 1 passed" severity note;
+        else
+            report "Test case 1 failed" severity error;
+        end if;
 
         -- test case 2: rotate left
         S_sig <= "1001";
         wait for 1 ns; -- and check output F=E1 and Cout=1
+        if (F_sig = "11100001") and (Cout_sig = '1') then
+            report "Test case 2 passed" severity note;
+        else
+            report "Test case 2 failed" severity error;
+        end if;
 
         -- test case 3: rotate left with cin
         S_sig <= "1010";
         Cin_sig <= '0';
         wait for 1 ns; -- and check output F=E0 and Cout=1
+        if (F_sig = "11100000") and (Cout_sig = '1') then
+            report "Test case 3 passed" severity note;
+        else
+            report "Test case 3 failed" severity error;
+        end if;
 
         -- test case 4: F = 0
         S_sig <= "1011";
         wait for 1 ns; -- and check output F=00 and Cout=0
+        if (F_sig = "00000000") and (Cout_sig = '0') then
+            report "Test case 4 passed" severity note;
+        else
+            report "Test case 4 failed" severity error;
+        end if;
 
         -- test case 5: logic shift right
         S_sig <= "1100";
         wait for 1 ns; -- and check output F=78 and Cout=0
+        if (F_sig = "01111000") and (Cout_sig = '0') then
+            report "Test case 5 passed" severity note;
+        else
+            report "Test case 5 failed" severity error;
+        end if;
 
         -- test case 6: rotate right
         S_sig <= "1101";
         wait for 1 ns; -- and check output F=78 and Cout=0
+        if (F_sig = "01111000") and (Cout_sig = '0') then
+            report "Test case 6 passed" severity note;
+        else
+            report "Test case 6 failed" severity error;
+        end if;
 
         -- test case 7: rotate right with cin
         S_sig <= "1110";
         Cin_sig <= '0';
         wait for 1 ns; -- and check output F=78 and Cout=0
+        if (F_sig = "01111000") and (Cout_sig = '0') then
+            report "Test case 7 passed" severity note;
+        else
+            report "Test case 7 failed" severity error;
+        end if;
 
         -- test case 8: arithmetic shift right
         S_sig <= "1111";
         wait for 1 ns; -- and check output F=F8 and Cout=0
+        if (F_sig = "11111000") and (Cout_sig = '0') then
+            report "Test case 8 passed" severity note;
+        else
+            report "Test case 8 failed" severity error;
+        end if;
 
         -- test case 9: rotate left with cin
         S_sig <= "1010";
         Cin_sig <= '1';
         wait for 1 ns; -- and check output F=E1 and Cout=1
+        if (F_sig = "11100001") and (Cout_sig = '1') then
+            report "Test case 9 passed" severity note;
+        else
+            report "Test case 9 failed" severity error;
+        end if;
 
         -- test case 10: rotate right with cin
         S_sig <= "1110";
         Cin_sig <= '1';
         wait for 1 ns; -- and check output F=F8 and Cout=0
+        if (F_sig = "11111000") and (Cout_sig = '0') then
+            report "Test case 10 passed" severity note;
+        else
+            report "Test case 10 failed" severity error;
+        end if;
 
         wait; -- do not close the simulation
 
