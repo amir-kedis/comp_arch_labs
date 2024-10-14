@@ -69,7 +69,7 @@ architecture ArchALU of ALU is
       A     : in  std_logic_vector (N-1 downto 0) ;
       B     : in  std_logic_vector (N-1 downto 0) ;
       Cin   : in  std_logic                     ;
-      S     : in  std_logic_vector (N-1 downto 0) ;
+      S     : in  std_logic_vector (3 downto 0) ;
       F     : out std_logic_vector (N-1 downto 0) ;
       Cout  : out std_logic
     ) ;
