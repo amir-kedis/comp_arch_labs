@@ -1,6 +1,8 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
+library STD;
+use STD.ENV.STOP;
 
 entity register_file_tb is
     --empty
@@ -30,16 +32,6 @@ architecture register_file_tb_arch of register_file_tb is
 
 begin
 
-  -- this process will run in parallel with the test bench, it stops the process by asserting a false value
-  -- a delayed stop signal .. 
-  stop_simulation :process
-  begin
-    wait for 100 ns;
-    assert false
-      report "the simulation ended, my dear friend."
-      severity note;
-  end process ;
-
 
   DUT: register_file_mem port map (
     clk               => clk_sig,
@@ -67,6 +59,11 @@ begin
     read_address_0_sig  <= "000";
     read_address_1_sig  <= "000";
     wait for 10 ns;
+    if (read_data_0_sig = x"00") and (read_data_1_sig = x"00") then 
+      report "Test case 1 Passed" severity note;
+    else
+      report "FAILED test case 1" severity error;
+    end if;
 
 
     -- test case 2: write in Reg(0) 0xFF
@@ -75,24 +72,44 @@ begin
     write_address_sig   <= "000";
     write_data_sig      <= x"FF";
     wait for 10 ns;
+    if (read_data_0_sig = x"FF") and (read_data_1_sig = x"FF") then 
+      report "Test case 2 Passed" severity note;
+    else
+      report "FAILED test case 2" severity error;
+    end if;
 
 
     -- testcase 3: write in reg(1) 0x11
     write_address_sig   <= "001";
     write_data_sig      <= x"11";
     wait for 10 ns;
+    if (read_data_0_sig = x"FF") and (read_data_1_sig = x"FF") then 
+      report "Test case 3 Passed" severity note;
+    else
+      report "FAILED test case 3" severity error;
+    end if;
 
 
     -- testcase 4: write in reg(7) 0x90
     write_address_sig   <= "111";
     write_data_sig      <= x"90";
     wait for 10 ns;
+    if (read_data_0_sig = x"FF") and (read_data_1_sig = x"FF") then 
+      report "Test case 4 Passed" severity note;
+    else
+      report "FAILED test case 4" severity error;
+    end if;
 
 
     -- testcase 5: write in reg(3) 0x08
     write_address_sig   <= "011";
-    write_data_sig      <= x"98";
+    write_data_sig      <= x"08";
     wait for 10 ns;
+    if (read_data_0_sig = x"FF") and (read_data_1_sig = x"FF") then 
+      report "Test case 5 Passed" severity note;
+    else
+      report "FAILED test case 5" severity error;
+    end if;
 
     -- testcase 6: read reg1 on port 0, reg7 on port 1, write 0x03 to reg4
     read_address_0_sig  <= "001";
@@ -100,6 +117,11 @@ begin
     write_address_sig   <= "100";
     write_data_sig      <= x"03";
     wait for 10 ns;
+    if (read_data_0_sig = x"11") and (read_data_1_sig = x"90") then 
+      report "Test case 6 Passed" severity note;
+    else
+      report "FAILED test case 6" severity error;
+    end if;
 
 
     -- testcase 7: read reg2 on port 0, reg3 on port 1
@@ -107,12 +129,22 @@ begin
     read_address_0_sig  <= "010";
     read_address_1_sig  <= "011";
     wait for 10 ns;
+    if (read_data_0_sig = x"00") and (read_data_1_sig = x"08") then 
+      report "Test case 7 Passed" severity note;
+    else
+      report "FAILED test case 7" severity error;
+    end if;
 
 
     -- testcase 8: read reg4 on port 0, reg5 on port 1
     read_address_0_sig  <= "100";
     read_address_1_sig  <= "101";
     wait for 10 ns;
+    if (read_data_0_sig = x"03") and (read_data_1_sig = x"00") then 
+      report "Test case 8 Passed" severity note;
+    else
+      report "FAILED test case 8" severity error;
+    end if;
 
 
     -- testcase 9: read reg6 on port 0, reg0 on port 1, write 0x01 to reg0
@@ -122,14 +154,14 @@ begin
     write_address_sig   <= "000";
     write_data_sig      <= x"01";
     wait for 10 ns;
+    if (read_data_0_sig = x"00") and (read_data_1_sig = x"01") then 
+      report "Test case 9 Passed" severity note;
+    else
+      report "FAILED test case 9" severity error;
+    end if;
 
+    stop; -- stop the simulation
 
   end process ; -- testing_register_file
-
-  
-  -- another way to stop the simulation is to use this snippet (but it gives a warning on compilation):
-  -- library std;
-  -- use std.env.stop;
-  -- stop; -- put this line before the end of the process block
 
 end register_file_tb_arch ; -- arch_register_file_tb_arch
