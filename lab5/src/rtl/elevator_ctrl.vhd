@@ -12,7 +12,6 @@ entity elevator_ctrl is
     clk           : in  std_logic;
     rst           : in  std_logic;
     floor_request : in  std_logic_vector(NUM_FLOORS - 1 downto 0);
-    enable        : in  std_logic; -- 1-second clock enable
     current_floor : out unsigned(FLOOR_BITS - 1 downto 0);
     moving_up     : out std_logic;
     moving_down   : out std_logic;
@@ -42,7 +41,7 @@ architecture rtl of elevator_ctrl is
   signal is_idle             : std_logic;
   signal request_valid       : std_logic;
   signal suggested_direction : std_logic;
-
+  signal enable              : std_logic;
 
   -- components
   component request_resolver is
@@ -63,7 +62,29 @@ architecture rtl of elevator_ctrl is
           suggested_dir_up  : out std_logic
       );
   end component;
+
+  component clock_divider is
+      generic (
+          CLK_FREQ  : integer := 50_000_000
+      );
+      port (
+          clk     : in  std_logic;
+          rst     : in  std_logic;
+          enable  : out std_logic
+      );
+  end component;
 begin
+
+  -- clock divider
+  clock_divider_inst : clock_divider
+      generic map (
+          CLK_FREQ => CLK_FREQ
+      )
+      port map (
+          clk => clk,
+          rst => rst,
+          enable => enable
+      );
 
   req_resolver: request_resolver
       generic map (
